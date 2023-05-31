@@ -64,7 +64,7 @@ export class DebridgeValidatorSignaturesClient {
       context.logger.error(`[getSubmissionConfirmations] Error in getting response from arweave: ${error.message}`);
     }
 
-    const notExistsConfirmation = apiConfirmations.filter(it => arweaveSignatures.includes(it.signature)).map(it => {
+    const notExistsConfirmation = apiConfirmations.filter(it => !arweaveSignatures.includes(it.signature)).map(it => {
       return {
         submissionId: it.submissionId,
         txHash: undefined,
@@ -109,7 +109,7 @@ export class DebridgeValidatorSignaturesClient {
       context.logger.error(`[getNewAssetConfirmationsByDebridgeId]  in getting response from arweave: ${error.message}`);
     }
 
-    const notExistsConfirmation = apiConfirmations.filter(it => arweaveSignatures.includes(it.signature)).map(it => {
+    const notExistsConfirmation = apiConfirmations.filter(it => !arweaveSignatures.includes(it.signature)).map(it => {
       return {
         deployId: it.deployId,
         debridgeId: it.debridgeId,
