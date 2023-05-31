@@ -18,7 +18,7 @@ class DebridgeValidatorSignaturesClient {
         }
         else {
             const gitResponse = await fetch('https://raw.githubusercontent.com/debridge-finance/list-validators/main/validators.json');
-            this.arweaveTxOwners = await gitResponse.json();
+            this.arweaveTxOwners = (await gitResponse.json()).map(item => item.arweave);
         }
         this.arweaveClient = new debridge_arweave_sdk_1.DebridgeArweaveClient(config.arweaveNode || 'https://arweave.net', this.arweaveTxOwners);
         this.debridgeApiConnector = new debridge_api_connector_1.DebridgeApiConnector(config.debridgeApi || 'https://api.debridge.finance');

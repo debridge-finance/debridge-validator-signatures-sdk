@@ -13,6 +13,12 @@ type Config = {
   debridgeApi?: string;
 };
 
+type GitValidatorConfig = {
+  arweave: string;
+  validator: string;
+  name: string;
+}[];
+
 export class DebridgeValidatorSignaturesClient {
   private arweaveClient: DebridgeArweaveClient;
   private isInited = false;
@@ -28,7 +34,7 @@ export class DebridgeValidatorSignaturesClient {
       this.arweaveTxOwners = config.arweaveTxOwners;
     } else {
       const gitResponse = await fetch('https://raw.githubusercontent.com/debridge-finance/list-validators/main/validators.json');
-      this.arweaveTxOwners = await gitResponse.json();
+      this.arweaveTxOwners = ((await gitResponse.json()) as GitValidatorConfig).map(item => item.arweave);
     }
     this.arweaveClient = new DebridgeArweaveClient(config.arweaveNode || 'https://arweave.net', this.arweaveTxOwners);
     this.debridgeApiConnector = new DebridgeApiConnector(config.debridgeApi || 'https://api.debridge.finance');
