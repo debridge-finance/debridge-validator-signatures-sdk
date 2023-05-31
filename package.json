@@ -22,6 +22,6 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "debridge-arweave-sdk": "github:debridge-finance/debridge-arweave-sdk#1005e431bfbb2d396e7a2154e04479222e8a6f4b"
+    "debridge-arweave-sdk": "github:debridge-finance/debridge-arweave-sdk#25db6dd549dc0b387bd8b812059bf2ccb9b91726"
   }
 }

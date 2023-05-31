@@ -5,13 +5,11 @@ The SDK supports searching only for transactions that were created by specific a
 # How to use
 
 ```typescript
-const nodeUrl = 'https://arweave.net';
-const txOwners = ['123', 'abc']; //arweave addreses
 const client = new DebridgeValidatorSignaturesClient();
-client.init({
+await client.init({
   arweaveNode: 'https://arweave.net', //default https://arweave.net
   arweaveTxOwners: undefined, //default addreses from https://raw.githubusercontent.com/debridge-finance/list-validators/main/validators.json
-  debridgeApi: '', default, //default
+  debridgeApi: 'https://api.debridge.finance', default, //default https://api.debridge.finance
 });
 ```
 

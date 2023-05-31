@@ -2,6 +2,10 @@ import { Context, DebridgeArweaveClient } from "debridge-arweave-sdk";
 import { SubmissionRecord } from "./types/submission.record";
 import { AssetConfirmationRecord } from "./types/asset-confirmation.record";
 import { DebridgeApiConnector } from "./debridge-api.connector";
+import { AssetConfirmationApiRecord } from "./types/asset-confirmation-api.record";
+import { AssetConfirmationArweaveRecord } from "debridge-arweave-sdk/src/types/asset.confirmation.arweave-record";
+import { SubmissionApiRecord } from "./types/submission-api.record";
+import { SubmissionArweaveRecord } from "debridge-arweave-sdk/src/types/submission.arweave-record";
 
 type Config = {
   arweaveNode?: string;
@@ -38,15 +42,27 @@ export class DebridgeValidatorSignaturesClient {
    * @param context
    */
   async getSubmissionConfirmations(submissionId: string, context: Context): Promise<SubmissionRecord[]> {
-    const arweaveConfirmations = await this.arweaveClient.getSubmissionConfirmations(submissionId, context);
-    context.logger.verbose(`[getSubmissionConfirmations] arweaveConfirmations by ${submissionId}: ${arweaveConfirmations.length}`);
-    context.logger.verbose(`[getSubmissionConfirmations] arweaveConfirmations by ${submissionId}: ${JSON.stringify(arweaveConfirmations)}`);
+    let arweaveConfirmations: SubmissionArweaveRecord[] = [];
+    try {
+      arweaveConfirmations = await this.arweaveClient.getSubmissionConfirmations(submissionId, context);
+      context.logger.verbose(`[getSubmissionConfirmations] arweaveConfirmations by ${submissionId}: ${arweaveConfirmations.length}`);
+      context.logger.verbose(`[getSubmissionConfirmations] arweaveConfirmations by ${submissionId}: ${JSON.stringify(arweaveConfirmations)}`);
+    } catch (e) {
+      const error = e as Error;
+      context.logger.error(`Error in getting response from arweave: ${error.message}`);
+    }
 
     const arweaveSignatures = arweaveConfirmations.map(i => i.signature);
 
-    const apiConfirmations = await this.debridgeApiConnector.getSubmissionConfirmations(submissionId, context);
-    context.logger.verbose(`[getSubmissionConfirmations] apiConfirmations by ${submissionId}: ${apiConfirmations.length}`);
-    context.logger.verbose(`[getSubmissionConfirmations] apiConfirmations by ${submissionId}: ${JSON.stringify(apiConfirmations)}`);
+    let apiConfirmations: SubmissionApiRecord[] = [];
+    try {
+      apiConfirmations = await this.debridgeApiConnector.getSubmissionConfirmations(submissionId, context);
+      context.logger.verbose(`[getSubmissionConfirmations] apiConfirmations by ${submissionId}: ${apiConfirmations.length}`);
+      context.logger.verbose(`[getSubmissionConfirmations] apiConfirmations by ${submissionId}: ${JSON.stringify(apiConfirmations)}`);
+    } catch (e) {
+      const error = e as Error;
+      context.logger.error(`[getSubmissionConfirmations] Error in getting response from arweave: ${error.message}`);
+    }
 
     const notExistsConfirmation = apiConfirmations.filter(it => arweaveSignatures.includes(it.signature)).map(it => {
       return {
@@ -57,6 +73,7 @@ export class DebridgeValidatorSignaturesClient {
         chainIdTo: undefined,
         bundlrTransactionId: undefined,
         signature: it.signature,
+        validator: it.validator,
       } as SubmissionRecord;
     });
 
@@ -69,16 +86,28 @@ export class DebridgeValidatorSignaturesClient {
    * @param context
    */
   async getNewAssetConfirmationsByDebridgeId(debridgeId: string, context: Context): Promise<AssetConfirmationRecord[]> {
-    const arweaveConfirmations = await this.arweaveClient.getNewAssetConfirmationsByDebridgeId(debridgeId
-      , context);
-    context.logger.verbose(`[getNewAssetConfirmationsByDebridgeId] arweaveConfirmations by ${debridgeId}: ${arweaveConfirmations.length}`);
-    context.logger.verbose(`[getNewAssetConfirmationsByDebridgeId] arweaveConfirmations by ${debridgeId}: ${JSON.stringify(arweaveConfirmations)}`);
+    let arweaveConfirmations: AssetConfirmationArweaveRecord[] = [];
+    try {
+      arweaveConfirmations = await this.arweaveClient.getNewAssetConfirmationsByDebridgeId(debridgeId
+        , context);
+      context.logger.verbose(`[getNewAssetConfirmationsByDebridgeId] arweaveConfirmations by ${debridgeId}: ${arweaveConfirmations.length}`);
+      context.logger.verbose(`[getNewAssetConfirmationsByDebridgeId] arweaveConfirmations by ${debridgeId}: ${JSON.stringify(arweaveConfirmations)}`);
+    } catch (e) {
+      const error = e as Error;
+      context.logger.error(`Error in getting response from arweave: ${error.message}`);
+    }
 
     const arweaveSignatures = arweaveConfirmations.map(i => i.signature);
 
-    const apiConfirmations = await this.debridgeApiConnector.getNewAssetConfirmationsByDebridgeId(debridgeId, context);
-    context.logger.verbose(`[getNewAssetConfirmationsByDebridgeId] apiConfirmations by ${debridgeId}: ${apiConfirmations.length}`);
-    context.logger.verbose(`[getNewAssetConfirmationsByDebridgeId] apiConfirmations by ${debridgeId}: ${JSON.stringify(apiConfirmations)}`);
+    let apiConfirmations: AssetConfirmationApiRecord[] = [];
+    try {
+      apiConfirmations = await this.debridgeApiConnector.getNewAssetConfirmationsByDebridgeId(debridgeId, context);
+      context.logger.verbose(`[getNewAssetConfirmationsByDebridgeId] apiConfirmations by ${debridgeId}: ${apiConfirmations.length}`);
+      context.logger.verbose(`[getNewAssetConfirmationsByDebridgeId] apiConfirmations by ${debridgeId}: ${JSON.stringify(apiConfirmations)}`);
+    } catch (e) {
+      const error = e as Error;
+      context.logger.error(`[getNewAssetConfirmationsByDebridgeId]  in getting response from arweave: ${error.message}`);
+    }
 
     const notExistsConfirmation = apiConfirmations.filter(it => arweaveSignatures.includes(it.signature)).map(it => {
       return {
@@ -90,6 +119,7 @@ export class DebridgeValidatorSignaturesClient {
         tokenSymbol: it.tokenSymbol,
         tokenAddress: it.tokenAddress,
         signature: it.signature,
+        validator: it.validator,
       } as AssetConfirmationRecord;
     });
 
