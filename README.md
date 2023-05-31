@@ -13,6 +13,12 @@ await client.init({
 });
 ```
 
+Example of receiving arweaveTxOwners from git:
+```typescript
+const gitResponse = await fetch('https://raw.githubusercontent.com/debridge-finance/list-validators/main/validators.json');
+const arweaveTxOwners = (await gitResponse.json()).map(item => item.arweave);
+```
+
 For using a sdk you should have a context that contains logger(see types).
 
 Get signatures by submission id:
