@@ -3,21 +3,25 @@ import { DebridgeApiConnector } from "./debridge-api.connector";
 export class DebridgeValidatorSignaturesClient {
     arweaveClient;
     isInited = false;
-    arweaveTxOwners = [];
     debridgeApiConnector;
+    validatorNames = new Map();
     constructor() {
     }
     async init(config) {
         if (this.isInited)
             throw new Error();
-        if (config.arweaveTxOwners) {
-            this.arweaveTxOwners = config.arweaveTxOwners;
+        let validators;
+        if (config.validators) {
+            validators = config.validators;
         }
         else {
             const gitResponse = await fetch('https://raw.githubusercontent.com/debridge-finance/list-validators/main/validators.json');
-            this.arweaveTxOwners = (await gitResponse.json()).map(item => item.arweave);
+            validators = (await gitResponse.json());
         }
-        this.arweaveClient = new DebridgeArweaveClient(config.arweaveNode || 'https://arweave.net', this.arweaveTxOwners);
+        validators.forEach(validator => {
+            this.validatorNames.set(validator.validator, validator.name);
+        });
+        this.arweaveClient = new DebridgeArweaveClient(config.arweaveNode || 'https://arweave.net', validators);
         this.debridgeApiConnector = new DebridgeApiConnector(config.debridgeApi || 'https://api.debridge.finance');
         this.isInited = true;
     }

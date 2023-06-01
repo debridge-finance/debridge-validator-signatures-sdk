@@ -1,16 +1,21 @@
 import { Context } from "debridge-arweave-sdk";
 import { SubmissionRecord } from "./types/submission.record";
 import { AssetConfirmationRecord } from "./types/asset-confirmation.record";
+type ValidatorConfig = {
+    arweave: string;
+    validator: string;
+    name: string;
+};
 type Config = {
     arweaveNode?: string;
-    arweaveTxOwners?: string[];
+    validators?: ValidatorConfig[];
     debridgeApi?: string;
 };
 export declare class DebridgeValidatorSignaturesClient {
     private arweaveClient;
     private isInited;
-    private arweaveTxOwners;
     private debridgeApiConnector;
+    private readonly validatorNames;
     constructor();
     init(config: Config): Promise<void>;
     /**

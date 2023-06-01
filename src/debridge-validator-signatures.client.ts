@@ -7,36 +7,40 @@ import { AssetConfirmationArweaveRecord } from "debridge-arweave-sdk/src/types/a
 import { SubmissionApiRecord } from "./types/submission-api.record";
 import { SubmissionArweaveRecord } from "debridge-arweave-sdk/src/types/submission.arweave-record";
 
-type Config = {
-  arweaveNode?: string;
-  arweaveTxOwners?: string[];
-  debridgeApi?: string;
-};
-
-type GitValidatorConfig = {
+type ValidatorConfig = {
   arweave: string;
   validator: string;
   name: string;
-}[];
+};
+
+type Config = {
+  arweaveNode?: string;
+  validators?: ValidatorConfig[];
+  debridgeApi?: string;
+};
 
 export class DebridgeValidatorSignaturesClient {
   private arweaveClient: DebridgeArweaveClient;
   private isInited = false;
-  private arweaveTxOwners: string[] = [];
   private debridgeApiConnector: DebridgeApiConnector;
+  private readonly validatorNames = new Map<string, string>();
 
   constructor() {
   }
 
   async init(config: Config) {
     if (this.isInited) throw new Error();
-    if (config.arweaveTxOwners) {
-      this.arweaveTxOwners = config.arweaveTxOwners;
+    let validators: ValidatorConfig[];
+    if (config.validators) {
+      validators = config.validators;
     } else {
       const gitResponse = await fetch('https://raw.githubusercontent.com/debridge-finance/list-validators/main/validators.json');
-      this.arweaveTxOwners = ((await gitResponse.json()) as GitValidatorConfig).map(item => item.arweave);
+      validators = (await gitResponse.json()) as ValidatorConfig[];
     }
-    this.arweaveClient = new DebridgeArweaveClient(config.arweaveNode || 'https://arweave.net', this.arweaveTxOwners);
+    validators.forEach(validator => {
+      this.validatorNames.set(validator.validator, validator.name);
+    });
+    this.arweaveClient = new DebridgeArweaveClient(config.arweaveNode || 'https://arweave.net', validators);
     this.debridgeApiConnector = new DebridgeApiConnector(config.debridgeApi || 'https://api.debridge.finance');
 
     this.isInited = true;

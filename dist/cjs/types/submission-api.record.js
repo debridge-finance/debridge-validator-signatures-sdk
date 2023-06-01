@@ -6,7 +6,6 @@ class SubmissionApiRecord extends signature_record_1.SignatureRecord {
     submissionId;
     id;
     trackedTimeStamp;
-    validatorName;
 }
 exports.SubmissionApiRecord = SubmissionApiRecord;
 //# sourceMappingURL=submission-api.record.js.map
