@@ -36,8 +36,9 @@ chainIdFrom?: string;
 nonce?: string;
 chainIdTo?: string;
 bundlrTransactionId?: string;
+validatorName?: string;
 ```
-txHash, chainIdFrom, nonce, chainIdTo, bundlrTransactionId are not presented in records from debridge api.
+txHash, chainIdFrom, nonce, chainIdTo, bundlrTransactionId, validatorName are not presented in records from debridge api.
 
 
 Get signatures by debridgeId:
@@ -55,6 +56,7 @@ tokenDecimals: string;
 tokenName: string;
 tokenSymbol: string;
 tokenAddress: string;
+validatorName?: string;
 bundlrTransactionId?: string;
 ```
-bundlrTransactionId is not presented in records from debridge api.
+bundlrTransactionId, validatorName are not presented in records from debridge api.
