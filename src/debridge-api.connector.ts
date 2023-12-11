@@ -1,7 +1,7 @@
-import { Context } from "../../debridge-arweave-sdk";
 import { ApiRequestError } from "./errors/api-request.error";
 import { AssetConfirmationApiRecord } from "./types/asset-confirmation-api.record";
 import { SubmissionApiRecord } from "./types/submission-api.record";
+import { Context } from "debridge-arweave-sdk";
 
 export class DebridgeApiConnector {
   constructor(private readonly debridgeApi: string) {

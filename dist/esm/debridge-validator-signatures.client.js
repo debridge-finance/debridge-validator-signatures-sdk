@@ -84,6 +84,10 @@ export class DebridgeValidatorSignaturesClient {
             const error = e;
             context.logger.error(`Error in getting response from arweave: ${error.message}`);
         }
+        arweaveConfirmations = arweaveConfirmations.filter(arweaveConfirmation => {
+            return this.validatorNames.has(arweaveConfirmation.validator);
+        });
+        context.logger.verbose(`[getNewAssetConfirmationsByDebridgeId] filtered arweaveConfirmations by ${debridgeId}: ${arweaveConfirmations.length}`);
         const arweaveSignatures = arweaveConfirmations.map(i => i.signature);
         let apiConfirmations = [];
         try {

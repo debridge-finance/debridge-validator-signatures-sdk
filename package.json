@@ -1,6 +1,6 @@
 {
   "name": "debridge-validator-signatures-sdk",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "browser": "./dist/esm/index.js",
@@ -17,10 +17,10 @@
     "@rollup/plugin-node-resolve": "15.2.3",
     "@rollup/plugin-replace": "5.0.5",
     "@rollup/plugin-typescript": "11.1.5",
-    "@types/node": "20.10.0",
+    "@types/node": "20.10.4",
     "rimraf": "5.0.5",
     "tslib": "2.6.2",
-    "typescript": "5.3.2"
+    "typescript": "5.3.3"
   },
   "dependencies": {
     "debridge-arweave-sdk": "github:debridge-finance/debridge-arweave-sdk#v1.1.0"
