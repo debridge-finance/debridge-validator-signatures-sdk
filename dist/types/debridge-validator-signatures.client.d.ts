@@ -16,7 +16,6 @@ export declare class DebridgeValidatorSignaturesClient {
     private isInited;
     private debridgeApiConnector;
     private readonly validatorNames;
-    constructor();
     init(config: Config): Promise<void>;
     /**
      * Get signed submission transactions by id

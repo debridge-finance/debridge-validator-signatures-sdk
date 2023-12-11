@@ -25,9 +25,6 @@ export class DebridgeValidatorSignaturesClient {
   private debridgeApiConnector: DebridgeApiConnector;
   private readonly validatorNames = new Map<string, string>();
 
-  constructor() {
-  }
-
   async init(config: Config) {
     if (this.isInited) throw new Error();
     let validators: ValidatorConfig[];
@@ -61,6 +58,11 @@ export class DebridgeValidatorSignaturesClient {
       const error = e as Error;
       context.logger.error(`Error in getting response from arweave: ${error.message}`);
     }
+
+    arweaveConfirmations = arweaveConfirmations.filter(arweaveConfirmation => {
+      return this.validatorNames.has(arweaveConfirmation.validator);
+    });
+    context.logger.verbose(`[getSubmissionConfirmations] filtered arweaveConfirmations by ${submissionId}: ${arweaveConfirmations.length}`);
 
     const arweaveSignatures = arweaveConfirmations.map(i => i.signature);
 
