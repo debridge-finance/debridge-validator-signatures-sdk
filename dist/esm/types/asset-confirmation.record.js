@@ -7,6 +7,6 @@ export class AssetConfirmationRecord extends SignatureRecord {
     tokenName;
     tokenSymbol;
     tokenAddress;
-    bundlrTransactionId;
+    arweaveTransactionId;
 }
 //# sourceMappingURL=asset-confirmation.record.js.map
