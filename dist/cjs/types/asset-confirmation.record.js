@@ -10,7 +10,7 @@ class AssetConfirmationRecord extends signature_record_1.SignatureRecord {
     tokenName;
     tokenSymbol;
     tokenAddress;
-    bundlrTransactionId;
+    arweaveTransactionId;
 }
 exports.AssetConfirmationRecord = AssetConfirmationRecord;
 //# sourceMappingURL=asset-confirmation.record.js.map

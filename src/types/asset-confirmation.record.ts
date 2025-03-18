@@ -8,5 +8,5 @@ export class AssetConfirmationRecord extends SignatureRecord {
   tokenName: string;
   tokenSymbol: string;
   tokenAddress: string;
-  bundlrTransactionId?: string;
+  arweaveTransactionId?: string;
 }

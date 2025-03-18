@@ -5,6 +5,6 @@ export class SubmissionRecord extends SignatureRecord {
     chainIdFrom;
     nonce;
     chainIdTo;
-    bundlrTransactionId;
+    arweaveTransactionId;
 }
 //# sourceMappingURL=submission.record.js.map

@@ -22,7 +22,7 @@ class DebridgeValidatorSignaturesClient {
         validators.forEach(validator => {
             this.validatorNames.set(validator.validator, validator.name);
         });
-        this.arweaveClient = new debridge_arweave_sdk_1.DebridgeArweaveClient(config.arweaveNode || 'https://node2.bundlr.network', validators);
+        this.arweaveClient = new debridge_arweave_sdk_1.DebridgeArweaveClient(config.arweaveNode || 'https://arweave.net', validators);
         this.debridgeApiConnector = new debridge_api_connector_1.DebridgeApiConnector(config.debridgeApi || 'https://api.debridge.finance');
         this.isInited = true;
     }
@@ -64,7 +64,7 @@ class DebridgeValidatorSignaturesClient {
                 chainIdFrom: undefined,
                 nonce: undefined,
                 chainIdTo: undefined,
-                bundlrTransactionId: undefined,
+                arweaveTransactionId: undefined,
                 signature: it.signature,
                 validator: it.validator,
             };

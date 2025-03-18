@@ -37,7 +37,7 @@ export class DebridgeValidatorSignaturesClient {
     validators.forEach(validator => {
       this.validatorNames.set(validator.validator, validator.name);
     });
-    this.arweaveClient = new DebridgeArweaveClient(config.arweaveNode || 'https://node2.bundlr.network', validators);
+    this.arweaveClient = new DebridgeArweaveClient(config.arweaveNode || 'https://arweave.net', validators);
     this.debridgeApiConnector = new DebridgeApiConnector(config.debridgeApi || 'https://api.debridge.finance');
 
     this.isInited = true;
@@ -83,7 +83,7 @@ export class DebridgeValidatorSignaturesClient {
         chainIdFrom: undefined,
         nonce: undefined,
         chainIdTo: undefined,
-        bundlrTransactionId: undefined,
+        arweaveTransactionId: undefined,
         signature: it.signature,
         validator: it.validator,
       } as SubmissionRecord;

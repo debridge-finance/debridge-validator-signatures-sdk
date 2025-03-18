@@ -6,5 +6,5 @@ export class SubmissionRecord extends SignatureRecord {
   chainIdFrom?: string;
   nonce?: string;
   chainIdTo?: string;
-  bundlrTransactionId?: string;
+  arweaveTransactionId?: string;
 }
